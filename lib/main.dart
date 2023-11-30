@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   final List<Building> buildings = [
     Building(name: 'A Blok', location: const Offset(100, 150)),
     Building(name: 'B Blok', location: const Offset(200, 250)),
+    Building(name: 'C Blok', location: const Offset(100, 50)),
     // Diğer bina adları ve konumları buraya eklenebilir
   ];
 
