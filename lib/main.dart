@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: MyHomePage(buildings: buildings),
     );
   }
@@ -32,9 +33,10 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   final List<Building> buildings;
 
-  MyHomePage({required this.buildings});
+  const MyHomePage({super.key, required this.buildings});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
 }
 
@@ -97,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         child: Center(
           child: Image.asset(
-            'assets/kerem-okul4.jpg',
+            'assets/kerem-oku4l.png',
           ),
         ),
       ),
@@ -125,7 +127,6 @@ class _MapDetailPageState extends State<MapDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Map Detail'),
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
@@ -158,7 +159,7 @@ class _MapDetailPageState extends State<MapDetailPage> {
               children: [
                 // Harita resmi
                 Image.asset(
-                  'assets/kerem-okul4.jpg',
+                  'assets/kerem-oku4l.png',
                 ),
                 // Seçilen yerde kırmızı bir nokta
                 Positioned(
