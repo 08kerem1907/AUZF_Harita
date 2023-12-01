@@ -43,6 +43,22 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String query = '';
   Offset selectedLocation = const Offset(0, 0);
+  late Image mapImage; // Yüklenmiş harita resmi
+
+  @override
+  void initState() {
+    super.initState();
+    // Do not call precacheImage here
+    // Instead, it will be called in build or didChangeDependencies
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Harita resmini yükleyip bellekte sakla
+    mapImage = Image.asset('assets/kerem-oku4l.png');
+    precacheImage(mapImage.image, context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +83,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 selectedLocation = selectedBuildingData.location;
 
                 // Haritayı büyültmek için yeni bir sayfaya geçin
+                // ignore: use_build_context_synchronously
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => MapDetailPage(
                       selectedLocation: selectedLocation,
+                      mapImage: mapImage, // Harita resmini iletilir
                     ),
                   ),
                 );
@@ -85,33 +103,28 @@ class _MyHomePageState extends State<MyHomePage> {
         minScale: 1.0,
         boundaryMargin: const EdgeInsets.all(20.0),
         onInteractionUpdate: (details) {
-          // Haritanın genişlemesi için bir kontrol ekleyin
           double newScale = details.scale;
           if (newScale < 1.0) {
             newScale = 1.0;
           } else if (newScale > 14.0) {
             newScale = 14.0;
           }
-
-          // Yeni ölçeği kullanarak haritayı genişletin
-          setState(() {
-          });
+          setState(() {});
         },
         child: Center(
-          child: Image.asset(
-            'assets/kerem-oku4l.png',
-          ),
+          child: mapImage,
         ),
       ),
-
     );
   }
 }
 
+
 class MapDetailPage extends StatefulWidget {
   final Offset selectedLocation;
+  final Image mapImage; // Harita resmi
 
-  const MapDetailPage({super.key, required this.selectedLocation});
+  const MapDetailPage({super.key, required this.selectedLocation, required this.mapImage});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -145,7 +158,6 @@ class _MapDetailPageState extends State<MapDetailPage> {
           focalPoint = details.focalPoint;
         },
         onScaleUpdate: (details) {
-          // Parmağın hareketine göre ölçeği güncelle
           setState(() {
             scale = startingScale * details.scale;
             focalPoint = details.focalPoint;
@@ -158,9 +170,7 @@ class _MapDetailPageState extends State<MapDetailPage> {
             child: Stack(
               children: [
                 // Harita resmi
-                Image.asset(
-                  'assets/kerem-oku4l.png',
-                ),
+                widget.mapImage,
                 // Seçilen yerde kırmızı bir nokta
                 Positioned(
                   top: widget.selectedLocation.dy - 8,
