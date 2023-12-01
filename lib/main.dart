@@ -13,9 +13,10 @@ class Building {
 
 class MyApp extends StatelessWidget {
   final List<Building> buildings = [
-    Building(name: 'A Blok', location: const Offset(100, 150)),
-    Building(name: 'B Blok', location: const Offset(200, 250)),
-    Building(name: 'C Blok', location: const Offset(100, 50)),
+    Building(name: 'Bahçe Bitkileri Bölümü', location: const Offset(99, 145)),
+    Building(name: 'Tarım Makinaları ve Teknolojileri Mühendisliği B Blok', location: const Offset(118, 62)),
+    Building(name: 'Tarımsal Yapılar ve Sulama Bölümü', location: const Offset(169, 180)), //x tam ortalanmıyor 168,5 olsa mükemmel olacak
+    Building(name: 'Peyzaj Mimarlığı Bölümü', location: const Offset(177, 83)),
     // Diğer bina adları ve konumları buraya eklenebilir
   ];
 
@@ -194,6 +195,7 @@ class _MapDetailPageState extends State<MapDetailPage> {
     );
   }
 }
+
 
 class CustomSearchDelegate extends SearchDelegate<String> {
   final List<Building> buildings;
