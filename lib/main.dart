@@ -60,6 +60,18 @@ class _MyHomePageState extends State<MyHomePage> {
     precacheImage(mapImage.image, context);
   }
 
+  void _handleInteractionEnd(ScaleEndDetails details) {
+    // Dokunulan noktanın koordinatlarını alın
+    final RenderBox renderBox = context.findRenderObject() as RenderBox;
+    final Offset localPosition = renderBox.globalToLocal(details.velocity.pixelsPerSecond);
+
+    // Dokunulan noktanın koordinatlarını ekrana yazdır
+    final snackBar = SnackBar(
+      content: Text('Dokunulan Koordinat: ${localPosition.dx}, ${localPosition.dy}'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,15 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
         maxScale: 14.0,
         minScale: 1.0,
         boundaryMargin: const EdgeInsets.all(20.0),
-        onInteractionUpdate: (details) {
-          double newScale = details.scale;
-          if (newScale < 1.0) {
-            newScale = 1.0;
-          } else if (newScale > 14.0) {
-            newScale = 14.0;
-          }
-          setState(() {});
-        },
+        onInteractionEnd: _handleInteractionEnd, // Dokunma olayını dinleyin
         child: Center(
           child: mapImage,
         ),
@@ -118,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
 
 
 class MapDetailPage extends StatefulWidget {
